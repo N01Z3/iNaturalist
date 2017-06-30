@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 export MXNET_CPU_WORKER_NTHREADS=48
 export MXNET_CUDNN_AUTOTUNE_DEFAULT=0
 python fine-tune.py --pretrained-model model/resnet-152 \
