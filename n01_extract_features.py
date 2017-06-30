@@ -76,7 +76,7 @@ if __name__ == '__main__':
                 '/media/aakuzin/DATA/download/iNaturalist/val_s.rec', 'resneXt50_val')
     predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-50', 0,
                 '/media/aakuzin/DATA/download/iNaturalist/train_pt0.rec', 'resneXt50_trn')
-    predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-50', 0,
-                '/media/aakuzin/DATA/download/iNaturalist/val_s.rec', 'resneXt50_val')
-    predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-50', 0,
-                '/media/aakuzin/DATA/download/iNaturalist/train_pt0.rec', 'resneXt50_trn')
+    # predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-101', 0,
+    #             '/media/aakuzin/DATA/download/iNaturalist/val_s.rec', 'resneXt101_val')
+    # predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-101', 0,
+    #             '/media/aakuzin/DATA/download/iNaturalist/train_pt0.rec', 'resneXt101_trn')

@@ -3,10 +3,11 @@ import random
 from mxnet.io import DataBatch, DataIter
 import numpy as np
 
+
 def add_data_args(parser):
     data = parser.add_argument_group('Data', 'the input images')
-    #data.add_argument('--data-train', type=str, help='the training data')
-    #data.add_argument('--data-val', type=str, help='the validation data')
+    # data.add_argument('--data-train', type=str, help='the training data')
+    # data.add_argument('--data-val', type=str, help='the validation data')
     data.add_argument('--rgb-mean', type=str, default='123.68,116.779,103.939',
                       help='a tuple of size 3 for the mean rgb')
     data.add_argument('--pad-size', type=int, default=0,
@@ -22,6 +23,7 @@ def add_data_args(parser):
     data.add_argument('--dtype', type=str, default='float32',
                       help='data type: float32 or float16')
     return data
+
 
 def add_data_aug_args(parser):
     aug = parser.add_argument_group(
@@ -48,6 +50,7 @@ def add_data_aug_args(parser):
                      help='min ratio to scale, should >= img_size/input_shape. otherwise use --pad-size')
     return aug
 
+
 def set_data_aug_level(aug, level):
     if level >= 1:
         aug.set_defaults(random_crop=1, random_mirror=1)
@@ -63,18 +66,22 @@ class SyntheticDataIter(DataIter):
         self.cur_iter = 0
         self.max_iter = max_iter
         self.dtype = dtype
-        label = np.random.randint(0, num_classes, [self.batch_size,])
+        label = np.random.randint(0, num_classes, [self.batch_size, ])
         data = np.random.uniform(-1, 1, data_shape)
         self.data = mx.nd.array(data, dtype=self.dtype)
         self.label = mx.nd.array(label, dtype=self.dtype)
+
     def __iter__(self):
         return self
+
     @property
     def provide_data(self):
         return [mx.io.DataDesc('data', self.data.shape, self.dtype)]
+
     @property
     def provide_label(self):
         return [mx.io.DataDesc('softmax_label', (self.batch_size,), self.dtype)]
+
     def next(self):
         self.cur_iter += 1
         if self.cur_iter <= self.max_iter:
@@ -86,10 +93,13 @@ class SyntheticDataIter(DataIter):
                              provide_label=self.provide_label)
         else:
             raise StopIteration
+
     def __next__(self):
         return self.next()
+
     def reset(self):
         self.cur_iter = 0
+
 
 def get_rec_iter(args, kv=None):
     image_shape = tuple([int(l) for l in args.image_shape.split(',')])
@@ -106,38 +116,47 @@ def get_rec_iter(args, kv=None):
     else:
         (rank, nworker) = (0, 1)
     rgb_mean = [float(i) for i in args.rgb_mean.split(',')]
-    train = mx.img.ImageIter(
-        label_width         = 1,
-	path_root	    = 'data/', 
-        #path_imglist         = args.data_train,
-		path_imgrec      = 'data/train.rec',
-		path_imgidx     = 'data/train.idx',
-        data_shape          = (3, 320, 320),
-        batch_size          = args.batch_size,
-        rand_crop           = True,
-        rand_resize         = True,
-        rand_mirror         = True,
-        shuffle             = True,
-        brightness          = 0.4,
-        contrast            = 0.4,
-        saturation          = 0.4,
-        pca_noise           = 0.1,
-        num_parts           = nworker,
-        part_index          = rank)
-    #if args.data_val is None:
+    train = mx.io.ImageRecordIter(
+        label_width=1,
+        path_root='data/',
+        # path_imglist         = args.data_train,
+        path_imgrec='/media/aakuzin/DATA/download/iNaturalist/train_pt0.rec',
+        # path_imgidx='data/train.idx',
+        data_shape=(3, 224, 224),
+        batch_size=args.batch_size,
+
+        shuffle=True,
+        rand_crop=True,
+        rand_mirror=True,
+
+        max_rotate_angle=10,
+        max_aspect_ratio=0.25,
+        max_shear_ratio=0.1,
+
+        max_random_scale=1.0,
+        min_random_scale=0.85,
+
+        random_h=36,
+        random_s=40,
+        random_l=40,
+
+        rand_resize=True,
+        num_parts=nworker,
+        part_index=rank)
+    # if args.data_val is None:
     #    return (train, None)
-    val = mx.img.ImageIter(
-        label_width         = 1,
-	path_root	    = 'data/', 
-        #path_imglist         = args.data_val,
-		path_imgrec      = 'data/val.rec',
-		path_imgidx     = 'data/val.idx',
-        batch_size          = args.batch_size,
-        data_shape          =  (3, 320, 320),
-        resize		    = 360, 
-        rand_crop           = False,
-        rand_resize         = False,
-        rand_mirror         = False,
-        num_parts           = nworker,
-        part_index          = rank)
+    val = mx.io.ImageRecordIter(
+        label_width=1,
+        path_root='data/',
+        # path_imglist         = args.data_val,
+        path_imgrec='/media/aakuzin/DATA/download/iNaturalist/val_s.rec',
+        # path_imgidx='data/val.idx',
+        batch_size=args.batch_size,
+        data_shape=(3, 224, 224),
+        resize=360,
+        rand_crop=False,
+        rand_resize=False,
+        rand_mirror=False,
+        num_parts=nworker,
+        part_index=rank)
     return (train, val)
