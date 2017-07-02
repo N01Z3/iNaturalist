@@ -72,11 +72,25 @@ def predict_rec(model_json, epoch, rec_path, out_file):
 
 
 if __name__ == '__main__':
-    predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-50', 0,
-                '/media/aakuzin/DATA/download/iNaturalist/val_s.rec', 'resneXt50_val')
-    predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-50', 0,
-                '/media/aakuzin/DATA/download/iNaturalist/train_pt0.rec', 'resneXt50_trn')
+    # predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-50', 0,
+    #             '/media/aakuzin/DATA/download/iNaturalist/val_s.rec', 'resneXt50_val')
+    # predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-50', 0,
+    #             '/media/aakuzin/DATA/download/iNaturalist/train_pt0.rec', 'resneXt50_trn')
     # predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-101', 0,
     #             '/media/aakuzin/DATA/download/iNaturalist/val_s.rec', 'resneXt101_val')
     # predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-101', 0,
     #             '/media/aakuzin/DATA/download/iNaturalist/train_pt0.rec', 'resneXt101_trn')
+    # predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet11k_places365/resnet-152', 0,
+    #             '/media/aakuzin/DATA/download/iNaturalist/val_s.rec', 'resnet152_1k_val')
+    # predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet11k_places365/resnet-152', 0,
+    #             '/media/aakuzin/DATA/download/iNaturalist/train/train_pt0.rec', 'resnet152_1k_trn')
+
+    predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet11k/resnet-152', 0,
+                '/media/aakuzin/DATA/download/iNaturalist/val_s.rec', 'resnet152_11k_val')
+    predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet11k/resnet-152', 0,
+                '/media/aakuzin/DATA/download/iNaturalist/train/train_pt0.rec', 'resnet152_11k_trn')
+
+    predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-101-64x4d', 0,
+                '/media/aakuzin/DATA/download/iNaturalist/val_s.rec', 'resneXt101_64_val')
+    predict_rec('/media/aakuzin/DATA/dataset/ModelZoo/imagenet1k/resnext/resnext-101-64x4d', 0,
+                '/media/aakuzin/DATA/download/iNaturalist/train_pt0.rec', 'resneXt101_64_trn')

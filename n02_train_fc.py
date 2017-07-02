@@ -16,11 +16,11 @@ def net_symbol(num_class=5089):
 
 
 def get_data():
-    trn_x = np.load('tmp/resneXt101_val_0_pool.npy')
-    val_x = np.load('tmp/resneXt101_val_0_pool.npy')
+    trn_x = np.load('tmp/resnet152_11k_trn_0_pool.npy')
+    val_x = np.load('tmp/resnet152_11k_val_0_pool.npy')
 
-    trn_y = np.load('tmp/resneXt101_val_0_lbs.npy')
-    val_y = np.load('tmp/resneXt101_val_0_lbs.npy')
+    trn_y = np.load('tmp/resnet152_11k_trn_0_lbs.npy')
+    val_y = np.load('tmp/resnet152_11k_val_0_lbs.npy')
     print(trn_x.shape, trn_y.shape, val_x.shape, val_y.shape,)
     print(trn_y[:10], val_y[:10])
 
@@ -41,7 +41,7 @@ def train_mlp():
     save_model_prefix = 'model/mlp-'
 
     if os.path.isfile(save_model_prefix + '-symbol.json'):
-        sym, arg_params, aux_params = mx.model.load_checkpoint(save_model_prefix, 2)
+        sym, arg_params, aux_params = mx.model.load_checkpoint(save_model_prefix, 10)
 
     checkpoint = [mx.callback.do_checkpoint(save_model_prefix)]
     eval_metrics = ['accuracy', 'ce']
@@ -55,7 +55,7 @@ def train_mlp():
 
     model.fit(trn, val,
               eval_metric=eval_metrics,
-              optimizer_params={'learning_rate': 0.03, 'momentum': 0.9, 'lr_scheduler': lr_scheduler},
+              optimizer_params={'learning_rate': 0.01, 'momentum': 0.9, 'lr_scheduler': lr_scheduler},
               num_epoch=100,
               batch_end_callback=batch_end_callback, arg_params=arg_params, aux_params=aux_params,
               epoch_end_callback=checkpoint

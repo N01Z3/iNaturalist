@@ -49,6 +49,7 @@ def gen_list(prefix):
 
     df.to_csv(train_out, sep='\t', header=None, index=False)
     df = pd.read_csv(train_out, delimiter='\t', header=None)
+    print(df.shape, prefix)
     df.to_csv(train_out, sep='\t', header=None)
 
 
