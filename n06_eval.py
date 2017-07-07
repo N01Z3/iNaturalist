@@ -25,7 +25,7 @@ def add_fit_args(args):
                       help='data file for inference')
     args.add_argument('--chunk', default=200000, type=int, help='dump size')
 
-    args.add_argument('--ngpus', default='0', type=str, help='0,1,3')
+    args.add_argument('--ngpus', default=0, type=int, help='gpu number')
     args.add_argument('--batch', default=32, type=int, help='the batch size')
     args.add_argument('--kvstr', default='device', type=str, help='key-value store type')
 
@@ -64,7 +64,7 @@ def main(args):
 
     data = get_data(args, kv)
 
-    dev = [mx.gpu(int(i)) for i in args.ngpus.split(',')]
+    dev = mx.gpu(args.ngpus)
 
     sym, arg_params, aux_params = mx.model.load_checkpoint(args.netwk, args.begin)
     mod = mx.mod.Module(symbol=sym, context=dev)
