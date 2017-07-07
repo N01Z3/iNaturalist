@@ -18,8 +18,8 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
-TRAIN_BIN = 'rec/train'  # 'openimages_train.rec'/media/devbox/storage3/
-VAL_BIN = "rec/val.rec"  # 'openimages_val.rec'
+TRAIN_BIN = '/home/devbox/tmp/train'  # 'openimages_train.rec'/media/devbox/storage3/
+VAL_BIN = "../val.rec"  # 'openimages_val.rec'
 DATA_SHAPE = (3, 224, 224)
 
 # ====================================================
