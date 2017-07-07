@@ -21,7 +21,7 @@ def add_fit_args(args):
     args.add_argument('--means', default="0,0,0", type=str, help='substract from image channels')
     args.add_argument('--scale', default=1.0, type=float, help='scale all image channels')
 
-    args.add_argument('--dataf', default='../test.rec', type=str,
+    args.add_argument('--dataf', default='../val.rec', type=str,
                       help='data file for inference')
     args.add_argument('--chunk', default=200000, type=int, help='dump size')
 
@@ -46,8 +46,16 @@ def get_data(args, kv):
         mean_b=b,
         scale=args.scale,
 
-        rand_crop=False,
-        rand_mirror=False,
+        max_rotate_angle=5,
+        max_aspect_ratio=0.1,
+        max_shear_ratio=0.05,
+
+        random_h=10,
+        random_s=10,
+        random_l=10,
+
+        rand_crop=True,
+        rand_mirror=True,
 
         prefetch_buffer=2,
         data_shape=data_shape,
