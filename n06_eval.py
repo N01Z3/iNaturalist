@@ -21,7 +21,7 @@ def add_fit_args(args):
     args.add_argument('--means', default="0,0,0", type=str, help='substract from image channels')
     args.add_argument('--scale', default=1.0, type=float, help='scale all image channels')
 
-    args.add_argument('--dataf', default='/home/aakuzin/servers/devbox/media/devbox/storage3/tmp/val.rec', type=str,
+    args.add_argument('--dataf', default='../test.rec', type=str,
                       help='data file for inference')
     args.add_argument('--chunk', default=200000, type=int, help='dump size')
 
