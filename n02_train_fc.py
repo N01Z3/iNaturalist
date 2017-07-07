@@ -16,12 +16,12 @@ def net_symbol(num_class=5089):
 
 
 def get_data():
-    trn_x = np.load('tmp/resnet152_11k_trn_0_pool.npy')
-    val_x = np.load('tmp/resnet152_11k_val_0_pool.npy')
+    trn_x = np.load('tmp/resneXt101a_trn_0_pool.npy')
+    val_x = np.load('tmp/resneXt101a_val_0_pool.npy')
 
-    trn_y = np.load('tmp/resnet152_11k_trn_0_lbs.npy')
-    val_y = np.load('tmp/resnet152_11k_val_0_lbs.npy')
-    print(trn_x.shape, trn_y.shape, val_x.shape, val_y.shape,)
+    trn_y = np.load('tmp/resneXt101a_trn_0_lbs.npy')
+    val_y = np.load('tmp/resneXt101a_val_0_lbs.npy')
+    print(trn_x.shape, trn_y.shape, val_x.shape, val_y.shape, )
     print(trn_y[:10], val_y[:10])
 
     trn = mx.io.NDArrayIter(data=trn_x, label=trn_y, batch_size=BATCH, shuffle=True)

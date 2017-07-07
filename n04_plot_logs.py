@@ -31,7 +31,7 @@ for fn, c in zip(fls, ['r', 'g', 'b', 'c', 'k', 'y', 'navy', 'peru']):
     print(np.array(out)[np.argsort(out)[-3:]], np.argsort(out)[-3:])
 
     line1, = plt.plot(out, color=c, label='%0.4f: %s' % (np.amax(out), fn.split('_')[-1]))
-    plt.ylim(0.0, 1.0)
+    plt.ylim(0.6, 0.8)
 
 plt.legend(handler_map={line1: HandlerLine2D(numpoints=3)})
 plt.show()
