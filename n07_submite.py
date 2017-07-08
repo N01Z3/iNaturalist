@@ -20,7 +20,6 @@ def get_d():
     imgs = [aa['file_name'] for aa in ann_data['images']]
     im_ids = [aa['id'] for aa in ann_data['images']]
 
-
     print(imgs[:10])
     print(im_ids[:10])
     return dict(zip(imgs, im_ids))
@@ -35,7 +34,7 @@ def main():
     print(ids[:10])
     print(len(ids))
 
-    y_prd = np.load('tmp/avg0.npy')
+    y_prd = np.load('tmp/f_avg.npy')
     print(y_prd.shape)
 
     out = []
@@ -48,7 +47,7 @@ def main():
     sb['id'] = ids
     sb['predicted'] = out
     sb.sort_values(['id'], inplace=True)
-    sb.to_csv('subm/sub2.csv', index=False)
+    sb.to_csv('subm/sub3.csv', index=False)
 
 
 def avg():
@@ -63,13 +62,12 @@ def avg():
 
 
 def check():
-    y_tru = pd.read_csv('data/val.lst', sep='\t',  header=None, names=['0', 'y', 'fns'])['y']
+    y_tru = pd.read_csv('data/test.lst', sep='\t', header=None, names=['0', 'y', 'fns'])['y']
 
     all = []
     # for fn in glob.glob('tmp/r*npy'):
     for fn in ['tmp/rnx101_val_33_0.npy', 'tmp/rnx101t_val_44_0.npy',
                'tmp/rn152k_val_26_0.npy', 'tmp/rnx101t_r_val_44_0.npy']:
-
         prd = np.load(fn)
         all.append(prd)
 
@@ -80,26 +78,29 @@ def check():
 
 
 def agregate():
+    y_tru = pd.read_csv('data/test.lst', sep='\t', header=None, names=['0', 'y', 'fns'])['y']
+
     all = []
-    for i in range(0,10000,5000):
-        fn = 'tmp/val_320_49_%d.npy' % i
+    for i in range(0, len(y_tru), 5000):
+        fn = 'tmp/320_66_%d.npy' % i
         print(fn)
-        all.append(np.load(fn))
+        #
+        prd = gmean(np.load(fn), axis=0)
+        print(prd.shape)
+
+        all.append(prd)
 
     all = np.vstack(all)
-    y_tru = pd.read_csv('data/val.lst', sep='\t', header=None, names=['0', 'y', 'fns'])['y'][:10000]
+    print(all.shape)
+    np.save('tmp/f_avg', all)
 
-    print(all[:10], np.argmax(all, axis=1)[:10])
-
-    print(accuracy_score(y_tru, np.argmax(all, axis=1)))
-    prd = np.load('tmp/rnx101t_val_44_0.npy')[:10000]
-    print(accuracy_score(y_tru, np.argmax(prd, axis=1)))
 
 if __name__ == '__main__':
     # avg()
-    # main()
+
     # check()
     agregate()
+    main()
     # df = pd.read_csv('subm/sub0.csv')
     # df.sort_values(['id'], inplace=True)
     # df.to_csv('subm/sub0.csv', index=False)
